@@ -78,9 +78,9 @@ public class BinaryTree<T> implements BinaryTreeInterface<T> {
   public boolean isEmpty(){
     return root == null;
   }
-  public void levelOrderTraverse(){
-
-  }
+  // public void levelOrderTraverse(){
+  //   System.out.println("Not implemented :)\n");
+  // }
 
 
   public void preorderTraverse(){
