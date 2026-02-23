@@ -57,7 +57,7 @@ public class BinaryNode<T> {
     return result;
   }
 
-  public int getHeight(){
+  public int getHeight(){ // when do you need to use 'this' keyword?
     int max = 0;
     if(left != null){
       max = left.getHeight();

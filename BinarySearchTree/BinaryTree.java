@@ -48,7 +48,8 @@ public class BinaryTree<T> implements BinaryTreeInterface<T> {
       }
 
       if((leftTree!=null)&&(leftTree != this)){
-        leftTree.clear();
+        leftTree.clear(); // cutting off client access but only in the case that it doesn't destroy the
+                          // tree just created (i.e. if treeC == treeB or treeC == treeA)
       }
       if((rightTree != null)&&(rightTree != this)){
         rightTree.clear();
@@ -78,7 +79,7 @@ public class BinaryTree<T> implements BinaryTreeInterface<T> {
   public boolean isEmpty(){
     return root == null;
   }
-  
+
   // public void levelOrderTraverse(){
   //   System.out.println("Not implemented :)\n");
   // }
@@ -199,15 +200,15 @@ public class BinaryTree<T> implements BinaryTreeInterface<T> {
        // it wasn't empty to begin with.
        if (!nodeStack.isEmpty())
        {
-          nextNode = nodeStack.pop();
+          nextNode = nodeStack.pop(); // we just popped the leftmost leaf, so the item right above it on the stack is its parent (and also the parent of its right sibling)
           System.out.print(nextNode.getData() + " ");
           BinaryNode<T> parent = null;
           if (!nodeStack.isEmpty())
           {
              parent = nodeStack.peek();
-             if (nextNode == parent.getLeftChild())
+             if (nextNode == parent.getLeftChild()) // if what we just popped is the left child, then it might have a right sibling
                 currentNode = parent.getRightChild();
-             else
+             else // otherwise, what we just popped was the right child, and it doesn't have a right sibling
                 currentNode = null;
           }
           else

@@ -41,9 +41,9 @@ public class
         int compResult = root.getData().compareTo(entry);
         if(compResult == 0){
           result = root.getData();
-        } else if(compResult < 0){
+        } else if(compResult < 0){ // the entry we're looking for is greater than the node we're on --> move right
           result = findEntry(root.getRightChild(), entry);
-        } else {
+        } else { // the entry we're looking for is less than the node we're on --> move left
           result = findEntry(root.getLeftChild(), entry);
         }
       }
@@ -64,7 +64,7 @@ public class
       T result = null;
       int comparison = root.getData().compareTo(entry);
       if(comparison == 0){
-        result = root.getData();
+        result = root.getData(); // this is because in this case we're returning whatever we remove from the tree to check its data
         root.setData(entry);
       } else if(comparison < 0){
         if(root.hasRightChild()){
@@ -79,7 +79,8 @@ public class
           root.setLeftChild(new BinaryNode<>(entry));
         }
       }
-      return result;
+      return result; // going to be null if we're putting it in a spot where there was nothing
+                    // otherwise, we've replaced the data of whatever node was occupying that spot in the tree, so we'll return whatever the old data was
     }
 
     public T remove(T entry){
@@ -112,13 +113,15 @@ public class
     private BinaryNode<T> removeFromRoot(BinaryNode<T> root){
       //handles the three cases
       if(root.hasLeftChild() && root.hasRightChild()){
-        BinaryNode<T> largest = findLargest(root.getLeftChild());
-        root.setData(largest.getData());
-        root.setLeftChild(removeLargest(root.getLeftChild()));
-      } else {
-        if(root.hasLeftChild()){
+        BinaryNode<T> largest = findLargest(root.getLeftChild()); // find the largest item in the left subtree
+        root.setData(largest.getData()); // set the node's data equal to that largest item in the left subtree
+        root.setLeftChild(removeLargest(root.getLeftChild())); // remove the largest item in the left subtree (which is guarunteed to have at most one child)
+      } else { 
+        if(root.hasLeftChild()){ // if there's only one child, then just set this node's data equal to the data of that child
           root = root.getLeftChild();
-        } else {
+        } else { // this cleverly handles 2 cases: 
+                // (1) the nodes has just a right child; in which case, just set this node's data equal to that of the right child
+                // (2) the node has no children, in which case getRightChild returns null, and thus we have set this node equal to null, which is what we would want if we are just deleting a leaf
           root = root.getRightChild();
         }
       }
